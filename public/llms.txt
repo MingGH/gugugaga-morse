@@ -3,6 +3,9 @@
 这是一个中文 Web 工具站，用于在普通文字与“咕嘎密文”之间进行双向转换。
 
 站点地址：https://gugugaga.996.ninja/
+源码地址：https://github.com/MingGH/gugugaga-morse
+主站：996忍者 https://996.ninja
+博客：Asher的博客 https://www.runnable.run/about/
 
 ## 核心能力
 

@@ -67,6 +67,13 @@
 
 如需替换站点统计，请修改 `index.html`。
 
+## 相关链接
+
+- 在线地址：https://gugugaga.996.ninja/
+- 源码仓库：https://github.com/MingGH/gugugaga-morse
+- 主站：996忍者 https://996.ninja
+- 博客：Asher的博客 https://www.runnable.run/about/
+
 ## 常用命令
 
 ```bash

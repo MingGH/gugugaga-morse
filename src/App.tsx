@@ -22,8 +22,8 @@ export default function App() {
     <div className="min-h-screen bg-[#141618] text-[#edecea]">
       <header className="px-4 pt-[max(3rem,env(safe-area-inset-top))] pb-8 md:pt-14 md:pb-10">
         <div className="mx-auto flex max-w-5xl flex-col items-center text-center">
-          <h1 className="flex flex-col items-center gap-3 font-mono text-[2rem] font-bold lowercase tracking-[0.12em] text-[#e8a020] sm:flex-row sm:text-4xl sm:tracking-[0.16em] md:text-6xl">
-            <span>gugugaga-morse</span>
+          <h1 className="flex flex-col items-center gap-3 font-mono text-[2rem] font-bold tracking-[0.08em] text-[#e8a020] sm:flex-row sm:text-4xl sm:tracking-[0.12em] md:text-6xl">
+            <span>咕咕嘎嘎莫尔斯码</span>
             <img
               src="/gugu-smile.png"
               alt="gugu smile"

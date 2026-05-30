@@ -76,6 +76,13 @@ npm run preview
 <script defer src="https://umami.runnable.run/script.js" data-website-id="7a70324e-4128-43f4-8a14-c17500ba5f7c"></script>
 ```
 
+## 相关链接
+
+- 在线地址：https://gugugaga.996.ninja/
+- 源码地址：https://github.com/MingGH/gugugaga-morse
+- 主站：996忍者 https://996.ninja
+- 博客：Asher的博客 https://www.runnable.run/about/
+
 ## Git 说明
 
 - `temp/` 为本地素材目录，不提交到仓库
