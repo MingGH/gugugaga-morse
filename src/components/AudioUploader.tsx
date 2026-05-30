@@ -165,6 +165,17 @@ export default function AudioUploader({
   const [isPlaying, setIsPlaying] = useState(false)
   const [downloadStatus, setDownloadStatus] = useState<DownloadStatus>("idle")
   const stopRef = useRef(false)
+  const playbackAudioRef = useRef<HTMLAudioElement | null>(null)
+  const playbackUrlRef = useRef<string | null>(null)
+
+  const cleanupPlayback = useCallback(() => {
+    playbackAudioRef.current?.pause()
+    playbackAudioRef.current = null
+    if (playbackUrlRef.current) {
+      URL.revokeObjectURL(playbackUrlRef.current)
+      playbackUrlRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
     if (!dotFile) {
@@ -195,61 +206,46 @@ export default function AudioUploader({
 
   const canPlay = dotUrl && dashUrl && gugaSequence.trim().length > 0
 
-  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
-
-  const playAudio = useCallback(
-    (url: string): Promise<void> => {
-      return new Promise((resolve) => {
-        const audio = new Audio(url)
-        audio.onended = () => resolve()
-        audio.onerror = () => resolve()
-        audio.play().catch(() => resolve())
-      })
-    },
-    []
-  )
-
   const handlePlay = useCallback(async () => {
     if (!canPlay || !dotUrl || !dashUrl) return
 
     setIsPlaying(true)
     stopRef.current = false
 
-    const tokens = gugaSequence.trim().split(/\s+/)
-
-    for (let i = 0; i < tokens.length; i++) {
-      if (stopRef.current) break
-
-      const token = tokens[i]
-      if (token === "/") {
-        await sleep(WORD_GAP_SECONDS * 1000)
-        continue
+    try {
+      cleanupPlayback()
+      const mergedBlob = await buildMergedAudio(dotUrl, dashUrl, gugaSequence.trim(), mode)
+      if (stopRef.current) {
+        setIsPlaying(false)
+        return
       }
 
-      for (const syllable of tokenizeSyllables(token, mode)) {
-        if (stopRef.current) break
-        if (syllable === "dot") {
-          await playAudio(dotUrl)
-        } else {
-          await playAudio(dashUrl)
-        }
+      const playbackUrl = URL.createObjectURL(mergedBlob)
+      const audio = new Audio(playbackUrl)
+      playbackAudioRef.current = audio
+      playbackUrlRef.current = playbackUrl
+
+      audio.onended = () => {
+        cleanupPlayback()
+        setIsPlaying(false)
+      }
+      audio.onerror = () => {
+        cleanupPlayback()
+        setIsPlaying(false)
       }
 
-      if (!stopRef.current && i < tokens.length - 1) {
-        const nextToken = tokens[i + 1]
-        if (nextToken !== "/") {
-          await sleep(TOKEN_GAP_SECONDS * 1000)
-        }
-      }
+      await audio.play()
+    } catch {
+      cleanupPlayback()
+      setIsPlaying(false)
     }
-
-    setIsPlaying(false)
-  }, [canPlay, dashUrl, dotUrl, gugaSequence, mode, playAudio])
+  }, [canPlay, cleanupPlayback, dashUrl, dotUrl, gugaSequence, mode])
 
   const handleStop = useCallback(() => {
     stopRef.current = true
+    cleanupPlayback()
     setIsPlaying(false)
-  }, [])
+  }, [cleanupPlayback])
 
   const handleDownloadSequence = useCallback(async () => {
     const content = gugaSequence.trim()

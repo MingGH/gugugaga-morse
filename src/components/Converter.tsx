@@ -106,7 +106,9 @@ export default function Converter({ mode, onAppendToSequence }: ConverterProps) 
 
       <div className="grid grid-cols-1 items-start gap-3 md:grid-cols-[1fr_auto_1fr]">
         <div className="flex flex-col gap-1.5">
-          <label className="text-sm font-medium text-[#e8a020]">{inputLabel}</label>
+          <div className="flex min-h-11 items-center">
+            <label className="text-sm font-medium text-[#e8a020]">{inputLabel}</label>
+          </div>
           <textarea
             className="h-40 w-full rounded-[4px] border border-[#2d3035] bg-[#141618] p-3 font-mono text-base text-[#edecea] placeholder-[#6f7378] focus:outline-none focus:border-[#e8a020] sm:h-44 sm:text-sm"
             placeholder={inputPlaceholder}
@@ -124,7 +126,7 @@ export default function Converter({ mode, onAppendToSequence }: ConverterProps) 
         </button>
 
         <div className="flex flex-col gap-1.5">
-          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex min-h-11 flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
             <label className="text-sm font-medium text-[#e8a020]">{outputLabel}</label>
             {direction === "text2guga" && (
               <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap sm:justify-end">
